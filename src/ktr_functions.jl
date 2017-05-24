@@ -204,8 +204,8 @@ end
 "Get a parameter by its name"
 function get_param(kp::KnitroProblem, name::AbstractString)
     # try getting an integer parameter first
-    int_result = Array(Cint, 1)
-    float_result = Array(Cdouble, 1)
+    int_result = Array{Cint}(1)
+    float_result = Array{Cdouble}(1)
     if get_param(kp, name, int_result) == 0
         return int_result[1]
     elseif get_param(kp, name, float_result) != 0
@@ -230,8 +230,8 @@ end
 "Get a parameter by its id"
 function get_param(kp::KnitroProblem, id::Integer)
     # try getting an integer parameter first
-    int_result = Array(Cint, 1)
-    float_result = Array(Cdouble, 1)
+    int_result = Array{Cint}(1)
+    float_result = Array{Cdouble}(1)
     if get_param(kp, id, int_result) == 0
         return int_result[1]
     elseif get_param(kp, id, float_result) != 0
@@ -243,14 +243,14 @@ end
 
 ### ===== NEW in KNITRO 10.0 =====
 # /** Sets the string param_name with the name of parameter indexed by
-#  *  param_id and returns 0. Returns an error if param_id does not 
-#  *  correspond to any parameter, or if the parameter output_size 
-#  *  (the size of char array param_name) is less than the size of the 
+#  *  param_id and returns 0. Returns an error if param_id does not
+#  *  correspond to any parameter, or if the parameter output_size
+#  *  (the size of char array param_name) is less than the size of the
 #  *  parameter's description.
 #  */
 # int KNITRO_API KTR_get_param_name(      KTR_context_ptr kc,
-#                                   const int             param_id, 
-#                                         char * const    param_name, 
+#                                   const int             param_id,
+#                                         char * const    param_name,
 #                                   const size_t          output_size);
 
 # /** Sets the string description with the description of the parameter
@@ -260,17 +260,17 @@ end
 #  *  the size of the parameter's description.
 #  */
 # int KNITRO_API KTR_get_param_doc(      KTR_context_ptr kc,
-#                                  const int             param_id, 
+#                                  const int             param_id,
 #                                        char * const    description,
 #                                  const size_t          output_size);
 
 # /** Sets the int * param_type to the parameter type of parameter indexed
 #  *  by param_id. Possible values are KTR_PARAMTYPE_INTEGER, KTR_PARAMTYPE_FLOAT,
-#  *  KTR_PARAMTYPE_STRING. Returns an error if param_id does not correspond to 
+#  *  KTR_PARAMTYPE_STRING. Returns an error if param_id does not correspond to
 #  *  any parameter.
 #  */
 # int KNITRO_API KTR_get_param_type(      KTR_context_ptr kc,
-#                                   const int             param_id, 
+#                                   const int             param_id,
 #                                         int * const     param_type);
 
 # /** Set the int * num_param_values to the number of possible parameter
@@ -279,24 +279,24 @@ end
 #  *  Returns an error if param_id does not correspond to any parameter.
 #  */
 # int KNITRO_API KTR_get_num_param_values(      KTR_context_ptr kc,
-#                                         const int             param_id, 
+#                                         const int             param_id,
 #                                               int * const     num_param_values);
 
 # /** Set string param_value_string to the description of parameter value
 #  *  indexed by [param_id][value_id]. Returns an error if param_id does not
 #  *  correspond to any parameter, or if value_id is greater than the number
-#  *  of possible parameter values, or if there are not a finite number of 
-#  *  possible parameter values, or if the parameter output_size (the size 
-#  *  of char array param_value_string) is less than the size of the 
+#  *  of possible parameter values, or if there are not a finite number of
+#  *  possible parameter values, or if the parameter output_size (the size
+#  *  of char array param_value_string) is less than the size of the
 #  *  parameter's description.
 #  */
 # int KNITRO_API KTR_get_param_value_doc(      KTR_context_ptr kc,
-#                                        const int             param_id, 
-#                                        const int             value_id, 
-#                                              char * const    param_value_string, 
+#                                        const int             param_id,
+#                                        const int             value_id,
+#                                              char * const    param_value_string,
 #                                        const size_t          output_size);
 
-# /** Gets the integer value corresponding to the parameter name input and 
+# /** Gets the integer value corresponding to the parameter name input and
 #  *  copies it into param_id input. Returns zero if successful and an error
 #  *  code otherwise.
 #  */
@@ -397,7 +397,7 @@ end
 
 ### NEW in KNITRO 10.0
 """
-This API function can be used to identify which variables only appear 
+This API function can be used to identify which variables only appear
 linearly in the model (KTR_LINEARVAR_YES).
 
 This information can be used by Knitro to perform more extensive preprocessing.
@@ -504,7 +504,7 @@ Brief description of the arguments (consult the Knitro manual for details):
  *    initial_lambda - (length m+n) initial start point for multipliers
 
 Knitro makes a local copy of all inputs, so the application may free memory
-after the call completes. 
+after the call completes.
 
  - If `x_L` or `x_U` are not provided, then Knitro assumes all variables
  are unbounded in that direction.
